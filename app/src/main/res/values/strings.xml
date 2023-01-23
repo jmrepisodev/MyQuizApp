@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">MyQuizApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+
+    <!-- Navegation Titles -->
+    <string name="nav_profile">Perfil</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_help">Ayuda</string>
+    <string name="nav_ranking">Ranking</string>
+    <string name="nav_setting">Configuración</string>
+    <string name="nav_info">Información</string>
+    <string name="nav_exit">Salir</string>
+
+    <!-- Forms Titles -->
+    <string name="useremail">example@example.com</string>
+    <string name="email">Email</string>
+    <string name="titleRegistro">REGISTRAR</string>
+    <string name="titleLogin">LOGIN</string>
+    <string name="name">Nombre</string>
+    <string name="password">Password</string>
+    <string name="btn_registro">Registrar</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_save">Guardar</string>
+    <string name="legals">Acepto las condiciones y términos legales</string>
+    <string name="tv_btn_registro"><![CDATA[<u>No tengo cuenta</u>]]></string>
+    <string name="tv_btn_login"><![CDATA[<u>Ya tengo una cuenta</u>]]></string>
+    <string name="share">Compartir</string>
+    <string name="selectCategory">Selecciona una categoría</string>
+    <string name="selectLevel">Selecciona un nivel</string>
+    <string name="startgame">Empieza a jugar y disfruta</string>
+    <string name="spin">Ruleta</string>
+
+    <!-- Preference Titles -->
+    <string name="title_setting">CONFIGURACIÓN</string>
+    <string name="title_custom">PERSONALIZAR</string>
+    <string name="title_help">AYUDA</string>
+    <string name="title_info">INFORMACIÓN</string>
+    <string name="modify_profile">MODIFICAR PERFIL DE USUARIO</string>
+    <string name="modify_profile_description">Cambiar la información de usuario</string>
+
+
+    <string name="acercaDe">ACERCA DE</string>
+    <string name="infoSystem">INFORMACIÓN DEL SISTEMA</string>
+
+
+    <string name="sound">Sonido</string>
+    <string name="description_sound">Activar/Desactivar Sonido</string>
+    <string name="description_vibration">Activar/Desactivar vibración</string>
+    <string name="vibration">Vibración</string>
+    <string name="title_theme">TEMA</string>
+    <string name="description_theme">Cambiar tema y estilos</string>
+    <string name="language_title">Idioma</string>
+    <string name="description_language">Cambiar idioma</string>
+    <string name="description_help">Ayuda e instrucciones de uso</string>
+    <string name="title_legal_policy">POLÍTICA DE PRIVACIDAD</string>
+    <string name="description_legal_policy">Condiciones legales de privacidad</string>
+
+    <string name="title_activity_help">AYUYDA</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
+
+    <string name="privacy_policy">Política de privacidad</string>
+    <string name="privacy_policy_summary">Información sobre la política de privacidad</string>
+    <string name="level">Nivel</string>
+    <string name="categoria">Categoría</string>
+    <string name="btn_next">Siguiente</string>
+    <string name="score">Score</string>
+    <string name="aciertos">Aciertos</string>
+    <string name="errores">Errores</string>
+    <string name="restart">Reiniciar</string>
+    <string name="gameOver">GAME OVER</string>
+    <string name="fail">¡Lo siento, has perdido!</string>
+    <string name="verResultados">Ver Resultados</string>
+    <string name="congratulations">¡ENHORABUENA!</string>
+    <string name="registro_success">El registro se ha completado satisfactoriamente</string>
+    <string name="success">¡Felicidades, has ganado!</string>
+    <string name="highScore">25</string>
+    <string name="titlePerfil">Mi Perfil</string>
+    <string name="tittle_ranking">Ranking</string>
+    <string name="btn_search">Buscar</string>
+
+
+
+    <string name="texto_largo">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industrys standard dummy text ever since the 1500s,
+        when an unknown printer took a galley of type and scrambled it to make a type
+        specimen book. It has survived not only five centuries, but also the leap into
+        electronic typesetting, remaining essentially unchanged. It was popularised in
+        the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+        and more recently with desktop publishing software like Aldus PageMaker including
+        versions of Lorem Ipsum
+
+    </string>
+    <string name="ver_ranking">Ver Ranking</string>
+    <string name="position">1</string>
+    <string name="btn_modificar">Modificar</string>
+
+</resources>

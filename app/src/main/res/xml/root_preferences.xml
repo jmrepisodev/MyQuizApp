@@ -1,0 +1,56 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/title_setting">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/icon_volume"
+            android:summary="@string/description_sound"
+            app:key="keySound"
+            app:title="@string/sound" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:icon="@drawable/icon_vibration"
+            android:summary="@string/description_vibration"
+            app:key="keyVibration"
+            app:title="@string/vibration" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/title_custom">
+
+        <ListPreference
+            android:icon="@drawable/icon_language"
+            app:defaultValue="es"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="keyLanguage"
+            app:title="@string/language_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/title_help">
+
+        <PreferenceScreen
+            android:title="@string/acercaDe"
+            android:summary="@string/infoSystem"
+            android:icon="@drawable/nav_info">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.repiso"
+                android:targetClass="com.repiso.myquizapp.RegistroActivity">
+            </intent>
+        </PreferenceScreen>
+
+
+    </PreferenceCategory>
+
+
+
+
+
+</PreferenceScreen>

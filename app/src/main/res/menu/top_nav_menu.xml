@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/item_setting"
+        android:title="Configuración"
+        android:icon="@drawable/nav_setting"
+        android:iconTint="@color/white"
+        android:tooltipText="Configuración"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/item_exit"
+        android:title="Salir"
+        android:icon="@drawable/nav_exit"
+        android:iconTint="@color/white"
+        android:tooltipText="Salir"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".RankingFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="256dp"
+            android:layout_height="212dp"
+            android:layout_gravity="center"
+            android:contentDescription="Imagen podio"
+            android:layout_margin="8dp"
+            android:src="@drawable/podio" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/categoria"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoryRanking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/btn_search"
+                android:minHeight="42dp"
+                android:textSize="14sp"
+                android:minWidth="200dp"
+                android:textColor="@android:color/black">
+
+            </Spinner>
+
+            <ImageButton
+                android:id="@+id/imageButtonSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:contentDescription="image button"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/icon_search" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/separadorId"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_margin="8dp"
+            android:background="@color/purple" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_Ranking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="4dp"
+            android:scrollbars="vertical" />
+
+
+    </LinearLayout>
+</FrameLayout>
