@@ -10,15 +10,27 @@
         <item>en</item>
     </string-array>
 
-    <!-- Categorías Spinner -->
+    <!-- items Spinner -->
 
-    <string-array name="categorias_ranking">
+    <string-array name="categorias">
         <item>CIENCIAS</item>
         <item>GEOGRAFIA</item>
         <item>HISTORIA</item>
         <item>DEPORTES</item>
         <item>ARTE Y LITERATURA</item>
         <item>ESPECTACULOS</item>
+    </string-array>
+
+    <string-array name="niveles">
+        <item>FACIL</item>
+        <item>DIFICIL</item>
+    </string-array>
+
+    <string-array name="respuestas">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
 
 

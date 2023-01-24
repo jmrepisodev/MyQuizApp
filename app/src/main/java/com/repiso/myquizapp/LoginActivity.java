@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(usuario!=null){
 
+                            //Guardamos la sesión de usuario
                             sessionManager.setLogin(true);
                             sessionManager.setUserId(usuario.getId());
                             sessionManager.setUserName(usuario.getName());
@@ -69,7 +70,9 @@ public class LoginActivity extends AppCompatActivity {
                             sessionManager.setUserPassword(usuario.getPassword());
                             sessionManager.setUserRol(usuario.getRol());
 
-                           // Toast.makeText(getApplicationContext(), "Login OK", Toast.LENGTH_SHORT).show();
+                            //Limpiamos los campos de texto
+                            et_email.getText().clear();
+                            et_password.getText().clear();
 
                             if(usuario.getRol().equalsIgnoreCase("admin")){
                                 //Iniciamos la actividad principal

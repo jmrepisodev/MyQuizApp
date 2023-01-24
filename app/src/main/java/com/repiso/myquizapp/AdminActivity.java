@@ -1,15 +1,25 @@
 package com.repiso.myquizapp;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +33,7 @@ public class AdminActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private SessionManager sessionManager;
     private String username, email, rol;
+    private Boolean isLogin;
     private int userID;
 
     @Override
@@ -35,6 +46,7 @@ public class AdminActivity extends AppCompatActivity {
         username=sessionManager.getUserName();
         userID=sessionManager.getUserId();
         email=sessionManager.getUserEmail();
+        isLogin=sessionManager.getLogin();
 
         //ActionBar
         Toolbar toolbar=findViewById(R.id.toolbar);
@@ -119,5 +131,95 @@ public class AdminActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.fragment_container,fragment);
         fragmentTransaction.commit();
     }
+
+
+    /**
+     * Agrega el menú a la actionBar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.top_nav_menu, menu);
+        MenuCompat.setGroupDividerEnabled(menu, true);
+
+        return true;
+    }
+
+    /**
+     * Gestiona los items de la actionBar
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.item_setting:
+                Intent intent=new Intent(getApplicationContext(), SettingActivity.class);
+                //Lanza la actividad y permanece a la espera de una respuesta
+                // startActivityForResult(intent,REQUEST_CODE_SETTING);
+                startActivityIntent.launch(intent);
+                break;
+
+            case R.id.item_exit:
+                cerrarSesion();
+                break;
+        }
+
+        return true;
+    }
+
+    /**
+     * Nuevo método alternativo al antiguo onActivityResult. No tiene código de respuesta.
+     */
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+
+
+                        //Refresca la actividad
+                        Intent refresh=getIntent();
+                        startActivity(refresh);
+                        finish();
+
+                    }
+                }
+            });
+
+    /**
+     * Muestra un mensaje modal de alerta con opciones para el usuario
+     */
+    public void cerrarSesion(){
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("CERRAR SESIÓN");
+        builder.setIcon(R.drawable.nav_info);
+        builder.setMessage("¿Está seguro que desea cerrar sesión?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sessionManager.logout();
+                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
 
 }

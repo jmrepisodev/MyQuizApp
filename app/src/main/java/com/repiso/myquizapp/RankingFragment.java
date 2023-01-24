@@ -21,7 +21,7 @@ public class RankingFragment extends Fragment {
 
     private RecyclerViewAdapterRanking recyclerViewAdapterRanking;
     private RecyclerView recyclerViewRanking;
-    private ArrayList<Score> scoreList;
+    private ArrayList<Resultado> resultadoArrayList;
     private DBHelper dbHelper;
 
     private Spinner sp_category;
@@ -76,10 +76,10 @@ public class RankingFragment extends Fragment {
 
 
         //Inicia la lista de usuarios
-        scoreList =new ArrayList();
+        resultadoArrayList =new ArrayList();
 
-        //Obtiene la lista de categorías de la base de datos
-        scoreList =dbHelper.getRankingList();
+        //Obtiene la lista de datos de la base de datos
+        resultadoArrayList =dbHelper.getResultadosList();
 
         iniciarRecyclerview();
 
@@ -88,8 +88,8 @@ public class RankingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Eliminamos la lista previa
-                if(scoreList.size()!=0){
-                    scoreList.clear();
+                if(resultadoArrayList.size()!=0){
+                    resultadoArrayList.clear();
                     if(recyclerViewAdapterRanking!=null){
                         recyclerViewAdapterRanking.notifyDataSetChanged();
                     }
@@ -98,7 +98,7 @@ public class RankingFragment extends Fragment {
                 //Obtenemos la categoria
                 categoria= sp_category.getSelectedItem().toString().trim();
                 //cargamos la lista por categoría
-                scoreList =dbHelper.getRankingListByCategory(categoria);
+                resultadoArrayList =dbHelper.getResultadoListByCategory(categoria);
 
                 iniciarRecyclerview();
 
@@ -112,7 +112,7 @@ public class RankingFragment extends Fragment {
 
 
     private void iniciarRecyclerview() {
-        if(scoreList.size()==0){
+        if(resultadoArrayList.size()==0){
             Toast.makeText(getContext(), "La lista está vacía", Toast.LENGTH_LONG).show();
         }else{
             // Esta línea mejora el rendimiento, si sabemos que el contenid no va a afectar al tamaño del RecyclerView
@@ -120,7 +120,7 @@ public class RankingFragment extends Fragment {
             // Establece el layoutManager del recyclerview
             recyclerViewRanking.setLayoutManager(new LinearLayoutManager(getContext()));
             // Creamos el adaptador, pasándole los datos que va a mostrar
-            recyclerViewAdapterRanking=new RecyclerViewAdapterRanking(scoreList, getContext());
+            recyclerViewAdapterRanking=new RecyclerViewAdapterRanking(resultadoArrayList, getContext());
             // Asociamos el adapter al recyclerView
             recyclerViewRanking.setAdapter(recyclerViewAdapterRanking);
             // muestra los cambios

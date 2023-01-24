@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ResultadoActivity extends AppCompatActivity {
 
@@ -82,6 +83,7 @@ public class ResultadoActivity extends AppCompatActivity {
         username=sessionManager.getUserName();
         userID=sessionManager.getUserId();
         email=sessionManager.getUserEmail();
+        isLogin=sessionManager.getLogin();
 
         //Recupera las preferencias de configuración
         Preferencias.getPreferences(this);
@@ -116,6 +118,7 @@ public class ResultadoActivity extends AppCompatActivity {
      * Carga los resultados de la partida y muestra los resultados en pantalla
      */
     private void cargarResultados() {
+
         if(getIntent().getExtras()!=null){
 
             difficulty=getIntent().getExtras().getString(KEY_LEVEL);
@@ -126,6 +129,17 @@ public class ResultadoActivity extends AppCompatActivity {
             errores=getIntent().getExtras().getInt(KEY_FALLOS);
             enBlanco=getIntent().getExtras().getInt(KEY_ENBLANCO);
             score = getIntent().getExtras().getInt(KEY_SCORE);
+
+            //Si la sesión está iniciada
+            if(sessionManager!=null && isLogin==true){
+                dbHelper=DBHelper.getInstance(getApplicationContext());
+                //Actualiza la base de datos de resultados
+                Resultado resultado=new Resultado(userID,categoryID,aciertos,errores,enBlanco,score);
+                Boolean registrado=dbHelper.addResultado(resultado);
+
+                if(registrado) Toast.makeText(getApplicationContext(), "Resultado registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
 

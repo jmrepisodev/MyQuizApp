@@ -433,6 +433,38 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     /**
+     * Inserta una nueva categoría en la tabla Categorías de la base de datos.
+     * Abre una conexión a la base de datos
+     */
+    public long addCategory(Category category) {
+        database = getWritableDatabase();
+
+        //Inserta nuevo registro. Si da error devuelve -1
+        long result = -1;
+
+        //Inserta una nueva pregunta
+        if (database.isOpen()) {
+            //Instancia un objeto ContentValues, almacena una fila con pares columna-valor
+            ContentValues values = new ContentValues();
+
+            values.put("ID", category.getId());
+            values.put("NAME", category.getName());
+            values.put("IMAGE", category.getImage());
+
+            result=database.insert("CATEGORY", null, values);
+
+        }
+        //cierra la conexión
+        if(database !=null){
+            database.close();
+        }
+
+        return result;
+
+    }
+
+
+    /**
      * Devuelve una lista de categorías
      * @return lista categorías
      */
@@ -504,17 +536,33 @@ public class DBHelper extends SQLiteOpenHelper {
      * Inserta una nueva pregunta en la tabla Question de la base de datos.
      * Abre una conexión a la base de datos
      */
-    public void addQuestion(Question question) {
+    public long addQuestion(Question question) {
         database = getWritableDatabase();
 
+        long result=-1;
         //Inserta una nueva pregunta
         if (database.isOpen()) {
-            insertQuestion(question);
+            //Instancia un objeto ContentValues, almacena una fila con pares columna-valor
+            ContentValues values = new ContentValues();
+
+            values.put("QUESTION", question.getQuestion());
+            values.put("OPTION1", question.getOption1());
+            values.put("OPTION2", question.getOption2());
+            values.put("OPTION3", question.getOption3());
+            values.put("OPTION4", question.getOption4());
+            values.put("ANSWER", question.getAnswer());
+            values.put("IMAGE", question.getImage());
+            values.put("LEVEL", question.getDifficulty());
+            values.put("ID_CATEGORY", question.getCategoryID());
+
+            result=database.insert("QUESTIONS", null, values);
         }
         //cierra la conexión
         if(database !=null){
             database.close();
         }
+
+        return result;
 
     }
 
@@ -740,8 +788,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Elimina una partida de la base de datos
-     * @param id ID de partida
+     * Elimina un resultaado de la base de datos
+     * @param id ID de resultado
      * @return Devuelve el número de filas eliminadas
      */
     public Boolean deleteResultado(int id){
@@ -765,57 +813,16 @@ public class DBHelper extends SQLiteOpenHelper {
    /************************************************************************/
    /**  RESULTADOS RANKING */
 
-    /**
-     * Obtiene el ranking de usuarios según la categoría seleccionada
-     * @return
-     */
-    @SuppressLint("Range")
-    public ArrayList<Score> getRankingList() {
-        ArrayList<Score> scoreList = new ArrayList<>();
-        //abre la base de datos, en modo lectura
-        database = getReadableDatabase();
 
-        //Si la base de datos está abierta.
-        if(database.isOpen()) {
-
-            Cursor cursor;
-
-            //Opción 1: Realiza una consulta con los parámetros seleccionados
-            cursor= database.rawQuery("SELECT USERS.NAME, RESULTADOS.SCORE FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER ORDER BY SCORE DESC",null);
-
-            //Opción 2: consulta con parámetros
-            // cursor = db.query("tabla", null, args, params, null, null, null);
-
-            //si la base de datos tiene algún registro
-            if (cursor != null && cursor.getCount() > 0) {
-                //mientras la base de datos tenga registros
-                if (cursor.moveToFirst()) { //si hay registros
-                    do {
-                        Score score =new Score();
-                        // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                        score.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
-                        score.setScore(cursor.getInt(cursor.getColumnIndex("SCORE")));
-
-                        scoreList.add(score);
-                    } while (cursor.moveToNext()); //mientras haya registros
-                }
-                //cerramos el cursor
-                cursor.close();
-            }
-            //cerramos la base de datos
-            database.close();
-        }
-
-        return scoreList;
-    }
 
     /**
      * Obtiene el ranking de usuarios según la categoría seleccionada
      * @return
      */
     @SuppressLint("Range")
-    public ArrayList<Score> getRankingListByCategory (String categoria) {
-        ArrayList<Score> scoreList = new ArrayList<>();
+    public ArrayList<Resultado> getResultadoListByCategory (String categoria) {
+        ArrayList<Resultado> resultadoArrayList = new ArrayList<>();
+        Resultado resultado;
         Category category = null;
         //abre la base de datos, en modo lectura
         database = getReadableDatabase();
@@ -840,19 +847,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 if(category!=null){
 
                     //Opción 1: Realiza una consulta con los parámetros seleccionados
-                    Cursor cursor2= database.rawQuery("SELECT USERS.NAME, RESULTADOS.SCORE FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER " +
+                    Cursor cursor2= database.rawQuery("SELECT * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER " +
                             "AND ID_CATEGORY=? ORDER BY SCORE DESC",new String[] {String.valueOf(category.getId())});
                     //si la base de datos tiene algún registro
                     if (cursor2 != null && cursor2.getCount() > 0) {
                         //mientras la base de datos tenga registros
                         if (cursor2.moveToFirst()) { //si hay registros
                             do {
-                                Score score =new Score();
+                                resultado=new Resultado();
                                 // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                                score.setUsername(cursor2.getString(cursor2.getColumnIndex("NAME")));
-                                score.setScore(cursor2.getInt(cursor2.getColumnIndex("SCORE")));
+                                resultado.setID(cursor2.getInt(cursor2.getColumnIndex("ID")));
+                                resultado.setUserID(cursor2.getInt(cursor2.getColumnIndex("ID_USER")));
+                                resultado.setCategoryID(cursor2.getInt(cursor2.getColumnIndex("ID_CATEGORY")));
+                                resultado.setUsername(cursor2.getString(cursor2.getColumnIndex("NAME")));
+                                resultado.setAciertos(cursor2.getInt(cursor2.getColumnIndex("ACIERTOS")));
+                                resultado.setFallos(cursor2.getInt(cursor2.getColumnIndex("FALLOS")));
+                                resultado.setEnBlanco(cursor2.getInt(cursor2.getColumnIndex("ENBLANCO")));
+                                resultado.setScore(cursor2.getInt(cursor2.getColumnIndex("SCORE")));
 
-                                scoreList.add(score);
+                                resultadoArrayList.add(resultado);
                             } while (cursor2.moveToNext()); //mientras haya registros
                         }
                         //cerramos el cursor
@@ -867,7 +880,60 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
 
-        return scoreList;
+        return resultadoArrayList;
+    }
+
+
+
+
+    /**
+     * Obtiene el ranking de usuarios según la categoría seleccionada
+     * @return
+     */
+    @SuppressLint("Range")
+    public ArrayList<Resultado> getResultadosList() {
+        ArrayList<Resultado> resultadoArrayList = new ArrayList<>();
+        //abre la base de datos, en modo lectura
+        database = getReadableDatabase();
+
+        //Si la base de datos está abierta.
+        if(database.isOpen()) {
+
+            Cursor cursor;
+
+            //Opción 1: Realiza una consulta con los parámetros seleccionados
+            cursor= database.rawQuery("SELECT * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER ORDER BY SCORE DESC",null);
+
+            //Opción 2: consulta con parámetros
+            // cursor = db.query("tabla", null, args, params, null, null, null);
+
+            //si la base de datos tiene algún registro
+            if (cursor != null && cursor.getCount() > 0) {
+                //mientras la base de datos tenga registros
+                if (cursor.moveToFirst()) { //si hay registros
+                    do {
+                        Resultado resultado =new Resultado();
+                        // ¡¡OJO!! Distingue mayúsculas y minúsculas
+                        resultado.setID(cursor.getInt(cursor.getColumnIndex("ID")));
+                        resultado.setUserID(cursor.getInt(cursor.getColumnIndex("ID_USER")));
+                        resultado.setCategoryID(cursor.getInt(cursor.getColumnIndex("ID_CATEGORY")));
+                        resultado.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
+                        resultado.setAciertos(cursor.getInt(cursor.getColumnIndex("ACIERTOS")));
+                        resultado.setFallos(cursor.getInt(cursor.getColumnIndex("FALLOS")));
+                        resultado.setEnBlanco(cursor.getInt(cursor.getColumnIndex("ENBLANCO")));
+                        resultado.setScore(cursor.getInt(cursor.getColumnIndex("SCORE")));
+
+                        resultadoArrayList.add(resultado);
+                    } while (cursor.moveToNext()); //mientras haya registros
+                }
+                //cerramos el cursor
+                cursor.close();
+            }
+            //cerramos la base de datos
+            database.close();
+        }
+
+        return resultadoArrayList;
     }
 
 

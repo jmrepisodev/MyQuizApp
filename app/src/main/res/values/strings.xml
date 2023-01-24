@@ -104,5 +104,6 @@
     <string name="nav_question">Preguntas</string>
     <string name="nav_users">Usuarios</string>
     <string name="admin_panel">Panel de administración</string>
+    <string name="enblanco">En blanco</string>
 
 </resources>

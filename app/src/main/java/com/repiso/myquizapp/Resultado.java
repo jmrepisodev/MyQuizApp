@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 public class Resultado {
 
-    private int userID, categoryID, aciertos, fallos, enBlanco, score;
+    private int ID, userID, categoryID, aciertos, fallos, enBlanco, score;
+    private String username;
 
     public Resultado() {
     }
@@ -25,6 +26,32 @@ public class Resultado {
         this.fallos = fallos;
         this.enBlanco = enBlanco;
         this.score = score;
+    }
+
+    public Resultado(int userID, int categoryID, int aciertos, int fallos, int enBlanco, int score, String username) {
+        this.userID = userID;
+        this.categoryID = categoryID;
+        this.aciertos = aciertos;
+        this.fallos = fallos;
+        this.enBlanco = enBlanco;
+        this.score = score;
+        this.username = username;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getUserID() {

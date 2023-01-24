@@ -29,8 +29,45 @@ public class Question implements Parcelable {
     public Question() {
     }
 
+    /**
+     * Constructor completo
+     * @param id
+     * @param question
+     * @param option1
+     * @param option2
+     * @param option3
+     * @param option4
+     * @param answer
+     * @param image
+     * @param difficulty
+     * @param categoryID
+     */
     public Question(int id, String question, String option1, String option2, String option3, String option4, int answer, int image, String difficulty, int categoryID) {
         this.id = id;
+        this.question = question;
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
+        this.answer = answer;
+        this.image = image;
+        this.difficulty = difficulty;
+        this.categoryID = categoryID;
+    }
+
+    /**
+     * Constructror (sin ID)
+     * @param question
+     * @param option1
+     * @param option2
+     * @param option3
+     * @param option4
+     * @param answer
+     * @param image
+     * @param difficulty
+     * @param categoryID
+     */
+    public Question(String question, String option1, String option2, String option3, String option4, int answer, int image, String difficulty, int categoryID) {
         this.question = question;
         this.option1 = option1;
         this.option2 = option2;

@@ -284,14 +284,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
      */
     private void finishQuiz() {
 
+        //Calcula las preguntas en blanco
         enBlanco=totalquestion-(fallos+aciertos);
-
+/*
         //Actualiza la base de datos
         resultado=new Resultado(userID,categoryID,aciertos,fallos,enBlanco,score);
         Boolean registrado=dbHelper.addResultado(resultado);
 
         if(registrado) Toast.makeText(getApplicationContext(), "Resultado registrado satisfactoriamente", Toast.LENGTH_SHORT).show();
-
+*/
         Intent intent=new Intent(getApplicationContext(),ResultadoActivity.class);
 
         intent.putExtra(KEY_ACIERTOS, aciertos);

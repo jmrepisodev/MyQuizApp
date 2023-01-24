@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private SessionManager sessionManager;
 
     private String username, email;
+    private Boolean isLogin;
     private TextView tv_name, tv_email;
     private int userID;
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         username=sessionManager.getUserName();
         userID=sessionManager.getUserId();
         email=sessionManager.getUserEmail();
+        isLogin=sessionManager.getLogin();
 
         //Recupera las preferencias de configuración
         Preferencias.getPreferences(this);

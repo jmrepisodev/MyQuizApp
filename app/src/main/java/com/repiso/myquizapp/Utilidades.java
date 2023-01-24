@@ -47,7 +47,7 @@ public class Utilidades {
         Category category4=new Category(4,"ARTE Y LITERATURA",R.drawable.quizz);
         categoryList.add(category4);
 
-        Category category5=new Category(5,"ESPECTÁCULOS", R.drawable.quizz);
+        Category category5=new Category(5,"ESPECTACULOS", R.drawable.quizz);
         categoryList.add(category5);
 
         Category category6=new Category(6,"DEPORTES",R.drawable.quizz);
@@ -205,7 +205,7 @@ public class Utilidades {
         Resultado resultado2=new Resultado(3,1,2,2,1,20);
         resultadoList.add(resultado2);
 
-        Resultado resultado3=new Resultado(4,2,1,3,1,10);
+        Resultado resultado3=new Resultado(4,1,1,3,1,10);
         resultadoList.add(resultado3);
 
 

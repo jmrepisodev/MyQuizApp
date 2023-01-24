@@ -96,7 +96,7 @@ public class RecyclerViewAdapterCategory extends RecyclerView.Adapter<RecyclerVi
                         .setItems(Utilidades.getLevelsList(), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int position) {
                                 String level=null;
-                                Toast.makeText(context, "Ha seleccionado: "+position, Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(context, "Ha seleccionado: "+position, Toast.LENGTH_SHORT).show();
                                 switch (position){
                                     case 0:
                                         level ="FACIL";

@@ -16,18 +16,18 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerViewAdapterRanking.ViewHolderRanking> {
 
-    private ArrayList<Score> scoreList;
-    private Score score;
+    private ArrayList<Resultado> resultadoArrayList;
+    private Resultado resultado;
     private Context context;
 
 
     /**
      * constructor del Adapter. Gestiona el arrayList
-     * @param scoreList
+     * @param resultadoArrayList
      */
-    public RecyclerViewAdapterRanking(ArrayList<Score> scoreList, Context context) {
+    public RecyclerViewAdapterRanking(ArrayList<Resultado> resultadoArrayList, Context context) {
         this.context=context;
-        this.scoreList = scoreList;
+        this.resultadoArrayList = resultadoArrayList;
     }
 
     /**
@@ -56,13 +56,13 @@ public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull  ViewHolderRanking holder, @SuppressLint("RecyclerView") int position) {
 
         // obtenemos un elemento del arralist según su posición y lo enlazamos con el viewholder
-        if(scoreList !=null && scoreList.size()>0){
+        if(resultadoArrayList !=null && resultadoArrayList.size()>0){
 
-            score = scoreList.get(position);
+            resultado= resultadoArrayList.get(position);
 
             holder.icono.setImageResource(R.drawable.imgprofile);
-            holder.nombre.setText(String.valueOf(score.getUsername()));
-            holder.score.setText(String.valueOf(score.getScore()));
+            holder.nombre.setText(String.valueOf(resultado.getUsername()));
+            holder.score.setText(String.valueOf(resultado.getScore()));
             holder.position.setText(String.valueOf(position+1));
 
         }else {
@@ -75,7 +75,7 @@ public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerVie
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score = scoreList.get(position);
+                resultado = resultadoArrayList.get(position);
 
             }
         });
@@ -89,7 +89,7 @@ public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerVie
      */
     @Override
     public int getItemCount() {
-        return scoreList.size();
+        return resultadoArrayList.size();
     }
 
     /**

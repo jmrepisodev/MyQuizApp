@@ -2,7 +2,9 @@ package com.repiso.myquizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -62,7 +64,8 @@ public class RegistroActivity extends AppCompatActivity {
 
                 //Comprueba que todos los campos están rellenos
                 if(TextUtils.isEmpty(name) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass) || TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(),"Existen campos vacíos. Todos los campos son obligatorios",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Existen campos vacíos. Todos los campos son obligatorios",Toast.LENGTH_SHORT).show();
+                    mostrarAlerta("ERROR","Existen campos vacíos. Todos los campos son obligatorios");
                 }else{
 
                     //Validamos los datos
@@ -72,13 +75,22 @@ public class RegistroActivity extends AppCompatActivity {
                         if(dbHelper.checkUserEmail(email)==false){
                             Usuario usuario=new Usuario(name, email, pass, rol);
                             if(dbHelper.addUser(usuario)){
+                                //Muestra mensaje de confirmación de registro
                                 showDialogSuccess();
+
+                                //Limpiamos los campos de texto
+                                et_name.getText().clear();
+                                et_email.getText().clear();
+                                et_password.getText().clear();
+                                et_password_confirm.getText().clear();
                             }else{
-                                Toast.makeText(getApplicationContext(),"Error: No ha sido posible registrar la cuenta",Toast.LENGTH_SHORT).show();
+                                mostrarAlerta("ERROR","Error: No ha sido posible registrar la cuenta");
+                                //Toast.makeText(getApplicationContext(),"Error: No ha sido posible registrar la cuenta",Toast.LENGTH_SHORT).show();
                             }
 
                         }else{
-                            Toast.makeText(getApplicationContext(),"Error: Ya existe un usuario con esos datos. Registre otro email",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(),"Error: Ya existe un usuario con esos datos. Registre otro email",Toast.LENGTH_SHORT).show();
+                            mostrarAlerta("ERROR","Error: La cuenta ya existe. Registre otro email");
                         }
 
                     }else{
@@ -198,6 +210,26 @@ public class RegistroActivity extends AppCompatActivity {
 
         dialog.show();
 
+    }
+
+    /**
+     * Muestra un mensaje modal de alerta con opciones para el usuario
+     */
+    public void mostrarAlerta(String titulo, String mensaje){
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle(titulo);
+        builder.setIcon(R.drawable.nav_info);
+        builder.setMessage(mensaje);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
 
