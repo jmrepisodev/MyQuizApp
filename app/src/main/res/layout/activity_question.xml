@@ -205,7 +205,7 @@
         android:drawableTint="@color/white"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/nav_exit"
+        android:text="@string/nav_home"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

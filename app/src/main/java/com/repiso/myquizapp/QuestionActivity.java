@@ -378,7 +378,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.btn_quit:
-                finish();
+                mostrarAlertaFinalizar();
                 break;
         }
 
@@ -566,7 +566,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //Setting the animations to dialog
 
         Button Okay = dialog.findViewById(R.id.btn_okay);
-        Button Cancel = dialog.findViewById(R.id.btn_cancel);
+        Button cancel=dialog.findViewById(R.id.btn_cancel);
+
 
         if(isSoundON ==true){
             //reproduce un sonido
@@ -583,16 +584,17 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        Cancel.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 finish();
-                dialog.dismiss();
+
             }
         });
+
 
         dialog.show();
 
@@ -639,6 +641,34 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         outState.putInt(KEY_CURRENT_POSITON, currentPosition);
         outState.putLong(KEY_TIMELEFT, timeLeftInMillis);
         outState.putParcelableArrayList(KEY_QUESTION_LIST, questionList);
+    }
+
+
+    /**
+     * Muestra un mensaje modal de alerta con opciones para el usuario
+     */
+    public void mostrarAlertaFinalizar(){
+
+        android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(this);
+        builder.setTitle("FINALIZAR TEST");
+        builder.setIcon(R.drawable.nav_info);
+        builder.setMessage("¿Está seguro que desea finalizar el test?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 

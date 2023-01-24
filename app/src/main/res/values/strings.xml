@@ -30,7 +30,7 @@
     <string name="selectCategory">Selecciona una categoría</string>
     <string name="selectLevel">Selecciona un nivel</string>
     <string name="startgame">Empieza a jugar y disfruta</string>
-    <string name="spin">Ruleta</string>
+    <string name="spin">Random</string>
 
     <!-- Preference Titles -->
     <string name="title_setting">CONFIGURACIÓN</string>
@@ -97,5 +97,7 @@
     <string name="ver_ranking">Ver Ranking</string>
     <string name="position">1</string>
     <string name="btn_modificar">Modificar</string>
+    <string name="select_level">Selecciona nivel</string>
+    <string name="btn_accept">Aceptar</string>
 
 </resources>

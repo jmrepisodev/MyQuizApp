@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -89,11 +90,30 @@ public class RecyclerViewAdapterCategory extends RecyclerView.Adapter<RecyclerVi
                intent.putExtra(KEY_CATEGORY_ID, category.getId());
                holder.itemView.getContext().startActivity(intent);*/
 
-                Intent intent=new Intent(context, QuestionActivity.class);
-                intent.putExtra(KEY_CATEGORY_ID, category.getId());
-                intent.putExtra(KEY_CATEGORY_NAME, category.getName());
-                intent.putExtra(KEY_LEVEL, "FACIL");
-                context.startActivity(intent);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(R.string.select_level)
+                        .setItems(Utilidades.getLevelsList(), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int position) {
+                                String level=null;
+                                Toast.makeText(context, "Ha seleccionado: "+position, Toast.LENGTH_SHORT).show();
+                                switch (position){
+                                    case 0:
+                                        level ="FACIL";
+                                        break;
+                                    case 1:
+                                        level ="DIFICIL";
+                                }
+
+                                intent=new Intent(context,QuestionActivity.class);
+                                intent.putExtra(KEY_CATEGORY_ID,category.getId());
+                                intent.putExtra(KEY_CATEGORY_NAME,category.getName());
+                                intent.putExtra(KEY_LEVEL, level);
+                                context.startActivity(intent);
+
+                            }
+                        });
+                builder.create().show();
 
             }
         });
@@ -127,6 +147,9 @@ public class RecyclerViewAdapterCategory extends RecyclerView.Adapter<RecyclerVi
 
         }
     }
+
+
+
 
 
 }

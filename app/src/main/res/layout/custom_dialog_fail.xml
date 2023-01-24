@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="360dp"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp"
+    app:cardElevation="8dp"
+    android:layout_margin="8dp"
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/black">
 
@@ -96,7 +97,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_green"
             android:stateListAnimator="@null"
-            android:text="@string/verResultados"
+            android:text="@string/btn_accept"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
