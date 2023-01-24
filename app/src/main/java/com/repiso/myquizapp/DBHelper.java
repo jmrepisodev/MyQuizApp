@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREAR_CATEGORY_TABLE="CREATE TABLE CATEGORY (" +
             "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
             "NAME TEXT," +
-            "IMAGE_CATEGORY INTEGER" +
+            "IMAGE INTEGER" +
             ")";
 
     private static final String CREAR_QUESTIONS_TABLE="CREATE TABLE QUESTIONS (" +
@@ -424,7 +424,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         values.put("ID", category.getId());
         values.put("NAME", category.getName());
-        values.put("IMAGE_CATEGORY", category.getImage());
+        values.put("IMAGE", category.getImage());
 
 
         database.insert("CATEGORY", null, values);
@@ -450,7 +450,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     Category category = new Category();
                     category.setId(cursor.getInt(cursor.getColumnIndex("ID")));
                     category.setName(cursor.getString(cursor.getColumnIndex("NAME")));
-                    category.setImage(cursor.getInt(cursor.getColumnIndex("IMAGE_CATEGORY")));
+                    category.setImage(cursor.getInt(cursor.getColumnIndex("IMAGE")));
                     categoryList.add(category);
                 } while (cursor.moveToNext());
             }
@@ -770,8 +770,8 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     @SuppressLint("Range")
-    public ArrayList<Ranking> getRankingList() {
-        ArrayList<Ranking> rankingList = new ArrayList<>();
+    public ArrayList<Score> getRankingList() {
+        ArrayList<Score> scoreList = new ArrayList<>();
         //abre la base de datos, en modo lectura
         database = getReadableDatabase();
 
@@ -791,12 +791,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 //mientras la base de datos tenga registros
                 if (cursor.moveToFirst()) { //si hay registros
                     do {
-                        Ranking ranking=new Ranking();
+                        Score score =new Score();
                         // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                        ranking.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
-                        ranking.setScore(cursor.getInt(cursor.getColumnIndex("SCORE")));
+                        score.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
+                        score.setScore(cursor.getInt(cursor.getColumnIndex("SCORE")));
 
-                        rankingList.add(ranking);
+                        scoreList.add(score);
                     } while (cursor.moveToNext()); //mientras haya registros
                 }
                 //cerramos el cursor
@@ -806,7 +806,7 @@ public class DBHelper extends SQLiteOpenHelper {
             database.close();
         }
 
-        return rankingList;
+        return scoreList;
     }
 
     /**
@@ -814,8 +814,8 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     @SuppressLint("Range")
-    public ArrayList<Ranking> getRankingListByCategory (String categoria) {
-        ArrayList<Ranking> rankingList = new ArrayList<>();
+    public ArrayList<Score> getRankingListByCategory (String categoria) {
+        ArrayList<Score> scoreList = new ArrayList<>();
         Category category = null;
         //abre la base de datos, en modo lectura
         database = getReadableDatabase();
@@ -847,12 +847,12 @@ public class DBHelper extends SQLiteOpenHelper {
                         //mientras la base de datos tenga registros
                         if (cursor2.moveToFirst()) { //si hay registros
                             do {
-                                Ranking ranking=new Ranking();
+                                Score score =new Score();
                                 // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                                ranking.setUsername(cursor2.getString(cursor2.getColumnIndex("NAME")));
-                                ranking.setScore(cursor2.getInt(cursor2.getColumnIndex("SCORE")));
+                                score.setUsername(cursor2.getString(cursor2.getColumnIndex("NAME")));
+                                score.setScore(cursor2.getInt(cursor2.getColumnIndex("SCORE")));
 
-                                rankingList.add(ranking);
+                                scoreList.add(score);
                             } while (cursor2.moveToNext()); //mientras haya registros
                         }
                         //cerramos el cursor
@@ -867,7 +867,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
 
-        return rankingList;
+        return scoreList;
     }
 
 

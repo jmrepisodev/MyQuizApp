@@ -1,5 +1,8 @@
 package com.repiso.myquizapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -79,14 +82,10 @@ public class ProfileFragment extends Fragment {
                     //Validamos los datos
                     if(validarUserName(name) && pass.equals(repass) && validarEmail(email)){ //comprueba que ambas contraseñas coinciden, el email es válido y se ha aceptado las condiciones
 
-                        //Comprueba si no existe el email
-                        if(dbHelper.checkUserEmail(email)==false){
-
-                            if(dbHelper.updateUser(userID,name, email, pass, rol)>0){
-                                Toast.makeText(getContext(),"Actualizado correctamente",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(getContext(),"Error: No ha sido posible registrar la cuenta",Toast.LENGTH_SHORT).show();
-                            }
+                        //Si el email no existe o el email introducido corresponde al usuario actual
+                        if(dbHelper.checkUserEmail(email)==false || email.equalsIgnoreCase((sessionManager.getUserEmail()))){
+                            //Muestra mensaje alerta y modifica los datos
+                            modificarUsuario(userID, name, email, pass, rol);
 
                         }else{
                             Toast.makeText(getContext(),"Error: Ya existe un usuario con esos datos. Registre otro email",Toast.LENGTH_SHORT).show();
@@ -151,6 +150,43 @@ public class ProfileFragment extends Fragment {
     private boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
+    }
+
+
+    /**
+     * Muestra un mensaje modal de alerta con opciones para el usuario
+     */
+    public void modificarUsuario(int userID, String name, String email, String pass, String rol){
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+        builder.setTitle("MODIFICAR USUARIO");
+        builder.setIcon(R.drawable.nav_info);
+        builder.setMessage("¿Está seguro que desea modificar su perfil de usuario?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if(dbHelper.updateUser(userID,name, email, pass, rol)>0){
+                    //Actualizamos la sesión de usuario
+                    sessionManager.setUserName(name);
+                    sessionManager.setUserEmail(email);
+                    sessionManager.setUserPassword(pass);
+                    sessionManager.setUserRol(rol);
+                    Toast.makeText(getContext(),"Actualizado correctamente",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(),"Error: No ha sido posible registrar la cuenta",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 }

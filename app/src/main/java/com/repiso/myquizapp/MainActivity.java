@@ -84,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout=findViewById(R.id.drawer_layout);
         NavigationView navigationView=findViewById(R.id.navigationView);
 
-
+        //Botón menú lateral
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        //Menú inferior
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomBar);
 
         //Fragments

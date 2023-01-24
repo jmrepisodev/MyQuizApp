@@ -1,5 +1,7 @@
 package com.repiso.myquizapp;
 
+import java.time.LocalDate;
+
 public class Resultado {
 
     private int userID, categoryID, aciertos, fallos, enBlanco, score;

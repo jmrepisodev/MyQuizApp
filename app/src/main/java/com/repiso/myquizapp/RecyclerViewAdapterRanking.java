@@ -3,7 +3,6 @@ package com.repiso.myquizapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +16,18 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerViewAdapterRanking.ViewHolderRanking> {
 
-    private ArrayList<Ranking> rankingList;
-    private Ranking ranking;
+    private ArrayList<Score> scoreList;
+    private Score score;
     private Context context;
 
 
     /**
      * constructor del Adapter. Gestiona el arrayList
-     * @param rankingList
+     * @param scoreList
      */
-    public RecyclerViewAdapterRanking(ArrayList<Ranking> rankingList, Context context) {
+    public RecyclerViewAdapterRanking(ArrayList<Score> scoreList, Context context) {
         this.context=context;
-        this.rankingList=rankingList;
+        this.scoreList = scoreList;
     }
 
     /**
@@ -57,13 +56,13 @@ public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull  ViewHolderRanking holder, @SuppressLint("RecyclerView") int position) {
 
         // obtenemos un elemento del arralist según su posición y lo enlazamos con el viewholder
-        if(rankingList !=null && rankingList.size()>0){
+        if(scoreList !=null && scoreList.size()>0){
 
-            ranking= rankingList.get(position);
+            score = scoreList.get(position);
 
             holder.icono.setImageResource(R.drawable.imgprofile);
-            holder.nombre.setText(String.valueOf(ranking.getUsername()));
-            holder.score.setText(String.valueOf(ranking.getScore()));
+            holder.nombre.setText(String.valueOf(score.getUsername()));
+            holder.score.setText(String.valueOf(score.getScore()));
             holder.position.setText(String.valueOf(position+1));
 
         }else {
@@ -76,7 +75,7 @@ public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerVie
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ranking= rankingList.get(position);
+                score = scoreList.get(position);
 
             }
         });
@@ -90,7 +89,7 @@ public class RecyclerViewAdapterRanking extends RecyclerView.Adapter<RecyclerVie
      */
     @Override
     public int getItemCount() {
-        return rankingList.size();
+        return scoreList.size();
     }
 
     /**

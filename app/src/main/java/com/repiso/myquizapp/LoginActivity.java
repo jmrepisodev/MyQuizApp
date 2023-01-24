@@ -69,12 +69,21 @@ public class LoginActivity extends AppCompatActivity {
                             sessionManager.setUserPassword(usuario.getPassword());
                             sessionManager.setUserRol(usuario.getRol());
 
-                            Toast.makeText(getApplicationContext(), "Login OK", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getApplicationContext(), "Login OK", Toast.LENGTH_SHORT).show();
 
-                            //Iniciamos la actividad principal
-                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            if(usuario.getRol().equalsIgnoreCase("admin")){
+                                //Iniciamos la actividad principal
+                                Intent intent=new Intent(getApplicationContext(),AdminActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            }else{
+                                //Iniciamos la actividad principal
+                                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
                         }else{
                             Toast.makeText(getApplicationContext(),"Error: el email o la contraseña no son válidos",Toast.LENGTH_SHORT).show();
                         }

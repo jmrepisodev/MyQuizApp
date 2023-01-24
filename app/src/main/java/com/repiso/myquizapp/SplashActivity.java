@@ -16,6 +16,7 @@ public class SplashActivity extends AppCompatActivity {
     private TextView appName;
     private ImageView appImage;
     private Boolean firsTime;
+    private String rol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         //Recupera la información de inicio de sesión
         SessionManager sessionManager=new SessionManager(this);
         isLogin=sessionManager.getLogin();
+        rol=sessionManager.getUserRol();
         firsTime=sessionManager.getFirstTime();
 
 
@@ -43,10 +45,18 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isLogin==true){
-                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                if(isLogin==true && rol!=null){
+
+                    if(rol.equalsIgnoreCase("admin")){
+                        Intent intent=new Intent(getApplicationContext(), AdminActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 }else {
                     Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);

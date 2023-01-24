@@ -1,20 +1,20 @@
 package com.repiso.myquizapp;
 
-public class Ranking {
+public class Score {
 
     private String username, categoryname;
     private int score;
 
-    public Ranking() {
+    public Score() {
     }
 
-    public Ranking(String username, String categoryname, int score) {
+    public Score(String username, String categoryname, int score) {
         this.username = username;
         this.categoryname = categoryname;
         this.score = score;
     }
 
-    public Ranking(String username, int score) {
+    public Score(String username, int score) {
         this.username = username;
         this.score = score;
     }

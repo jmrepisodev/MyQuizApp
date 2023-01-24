@@ -3,7 +3,6 @@ package com.repiso.myquizapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +21,7 @@ public class RankingFragment extends Fragment {
 
     private RecyclerViewAdapterRanking recyclerViewAdapterRanking;
     private RecyclerView recyclerViewRanking;
-    private ArrayList<Ranking> rankingList;
+    private ArrayList<Score> scoreList;
     private DBHelper dbHelper;
 
     private Spinner sp_category;
@@ -77,10 +76,10 @@ public class RankingFragment extends Fragment {
 
 
         //Inicia la lista de usuarios
-        rankingList=new ArrayList();
+        scoreList =new ArrayList();
 
         //Obtiene la lista de categorías de la base de datos
-        rankingList=dbHelper.getRankingList();
+        scoreList =dbHelper.getRankingList();
 
         iniciarRecyclerview();
 
@@ -89,8 +88,8 @@ public class RankingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Eliminamos la lista previa
-                if(rankingList.size()!=0){
-                    rankingList.clear();
+                if(scoreList.size()!=0){
+                    scoreList.clear();
                     if(recyclerViewAdapterRanking!=null){
                         recyclerViewAdapterRanking.notifyDataSetChanged();
                     }
@@ -99,7 +98,7 @@ public class RankingFragment extends Fragment {
                 //Obtenemos la categoria
                 categoria= sp_category.getSelectedItem().toString().trim();
                 //cargamos la lista por categoría
-                rankingList=dbHelper.getRankingListByCategory(categoria);
+                scoreList =dbHelper.getRankingListByCategory(categoria);
 
                 iniciarRecyclerview();
 
@@ -113,7 +112,7 @@ public class RankingFragment extends Fragment {
 
 
     private void iniciarRecyclerview() {
-        if(rankingList.size()==0){
+        if(scoreList.size()==0){
             Toast.makeText(getContext(), "La lista está vacía", Toast.LENGTH_LONG).show();
         }else{
             // Esta línea mejora el rendimiento, si sabemos que el contenid no va a afectar al tamaño del RecyclerView
@@ -121,7 +120,7 @@ public class RankingFragment extends Fragment {
             // Establece el layoutManager del recyclerview
             recyclerViewRanking.setLayoutManager(new LinearLayoutManager(getContext()));
             // Creamos el adaptador, pasándole los datos que va a mostrar
-            recyclerViewAdapterRanking=new RecyclerViewAdapterRanking(rankingList, getContext());
+            recyclerViewAdapterRanking=new RecyclerViewAdapterRanking(scoreList, getContext());
             // Asociamos el adapter al recyclerView
             recyclerViewRanking.setAdapter(recyclerViewAdapterRanking);
             // muestra los cambios
