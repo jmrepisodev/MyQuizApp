@@ -67,7 +67,7 @@ public class CategoryFragment extends Fragment {
 
                     if(c!=null && dbHelper.addCategory(c)!=-1){
 
-                        mostrarAlerta("REGISTRO SATISFACTORIO", "La pregunta se ha insertado correctamente");
+                        mostrarAlerta("REGISTRO SATISFACTORIO", "La categoría se ha insertado correctamente");
 
                         //Limpiamos los campos de texto
                         et_category.getText().clear();

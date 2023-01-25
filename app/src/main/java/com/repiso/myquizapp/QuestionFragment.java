@@ -106,7 +106,7 @@ public class QuestionFragment extends Fragment  {
                 level=sp_level.getSelectedItem().toString().trim();
                 //Recuperamos la posición +1 (ID categoría)
                 int categoryID=sp_category.getSelectedItemPosition()+1;
-
+               // Toast.makeText(getContext(),"ID CATEGORIA: "+categoryID,Toast.LENGTH_LONG).show();
                 if(TextUtils.isEmpty(question) || TextUtils.isEmpty(option1) || TextUtils.isEmpty(option2) || TextUtils.isEmpty(option3) || TextUtils.isEmpty(option4) ){
                     mostrarAlerta("ERROR", "Error: Existen campos vacíos. Todos los campos son obligatorios");
                 }else {

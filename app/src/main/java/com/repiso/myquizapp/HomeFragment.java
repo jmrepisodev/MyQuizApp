@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment {
 
         //Inicia sesión de usuario
         sessionManager = new SessionManager(getContext());
+
         username=sessionManager.getUserName();
         userID=sessionManager.getUserId();
         email=sessionManager.getUserEmail();

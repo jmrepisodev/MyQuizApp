@@ -405,7 +405,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * Inserta una lista de categorías en la base de datos
      * @param categoryArrayList
      */
-    public void fillCategoryTable(ArrayList<Category> categoryArrayList){
+    protected void fillCategoryTable(ArrayList<Category> categoryArrayList){
         for (Category category: categoryArrayList) {
             insertCategory(category);
         }
@@ -415,12 +415,11 @@ public class DBHelper extends SQLiteOpenHelper {
      * Inserta una nueva categoría en la tabla CATEGORIAS de la base de datos.
      * Parte de una conexión abierta de la base de datos. Evita llamar recursivamente
      */
-    public void insertCategory(Category category) {
+    protected void insertCategory(Category category) {
 
         //Instancia un objeto ContentValues, almacena una fila con pares columna-valor
         ContentValues values = new ContentValues();
 
-        values.put("ID", category.getId());
         values.put("NAME", category.getName());
         values.put("IMAGE", category.getImage());
 
@@ -434,7 +433,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * Inserta una nueva categoría en la tabla Categorías de la base de datos.
      * Abre una conexión a la base de datos
      */
-    public long addCategory(Category category) {
+    protected long addCategory(Category category) {
         database = getWritableDatabase();
 
         //Inserta nuevo registro. Si da error devuelve -1
@@ -445,7 +444,6 @@ public class DBHelper extends SQLiteOpenHelper {
             //Instancia un objeto ContentValues, almacena una fila con pares columna-valor
             ContentValues values = new ContentValues();
 
-            values.put("ID", category.getId());
             values.put("NAME", category.getName());
             values.put("IMAGE", category.getImage());
 
@@ -461,19 +459,57 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Recupera la categoría por nombre
+     * @param categoryName
+     * @return
+     */
+    protected Category getCategoryByName(String categoryName){
+        int categoryID=0;
+
+        Category category = null;
+        //abre la base de datos, en modo lectura
+        database = getReadableDatabase();
+
+        //Si la base de datos está abierta.
+        if(database.isOpen()) {
+            String sql="SELECT * FROM CATEGORY WHERE NAME=?";
+            Cursor cursor= database.rawQuery(sql,new String[] {categoryName});
+
+            //si la base de datos tiene algún registro
+            if (cursor != null && cursor.getCount() ==1) {
+                //mientras la base de datos tenga registros, lo almacenamos en un cursor y lo agregamos al Array de usuarios
+                if (cursor.moveToFirst()){
+                    category=new Category();
+                    category.setId(cursor.getInt(0));
+                    category.setName(cursor.getString(1));
+                    category.setImage(cursor.getInt(2));
+                }
+                //cerramos el cursor
+                cursor.close();
+
+            }
+            //Cerramos la base de datos
+            database.close();
+        }
+
+
+        return category;
+    }
+
 
     /**
      * Devuelve una lista de categorías
      * @return lista categorías
      */
     @SuppressLint("Range")
-    public ArrayList<Category> getCategoryList() {
+    protected ArrayList<Category> getCategoryList() {
         ArrayList<Category> categoryList = new ArrayList<>();
         database = getReadableDatabase();
 
         if(database.isOpen()){
 
-            Cursor cursor = database.rawQuery("SELECT * FROM CATEGORY", null);
+            Cursor cursor = database.rawQuery("SELECT * FROM CATEGORY ORDER BY ID", null);
 
             if (cursor.moveToFirst()) {
                 do {
@@ -821,61 +857,52 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<Resultado> getResultadoListByCategory (String categoria) {
         ArrayList<Resultado> resultadoArrayList = new ArrayList<>();
         Resultado resultado;
+        //Recuperamos la categoría
         Category category = null;
-        //abre la base de datos, en modo lectura
-        database = getReadableDatabase();
+        category=dbHelper.getCategoryByName(categoria);
 
-        //Si la base de datos está abierta.
-        if(database.isOpen()) {
-            String sql="SELECT * FROM CATEGORY WHERE NAME=?";
-            Cursor cursor1= database.rawQuery(sql,new String[] {categoria});
+        if(category!=null){
 
-            //si la base de datos tiene algún registro
-            if (cursor1 != null && cursor1.getCount() ==1) {
-                //mientras la base de datos tenga registros, lo almacenamos en un cursor y lo agregamos al Array de usuarios
-                if (cursor1.moveToFirst()){
-                    category=new Category();
-                    category.setId(cursor1.getInt(0));
-                    category.setName(cursor1.getString(1));
-                    category.setImage(cursor1.getInt(2));
-                }
-                //cerramos el cursor
-                cursor1.close();
+            //abre la base de datos, en modo lectura
+            database = getReadableDatabase();
 
-                if(category!=null){
+            //Si la base de datos está abierta.
+            if(database.isOpen()) {
 
-                    //Opción 1: Realiza una consulta con los parámetros seleccionados
-                    Cursor cursor2= database.rawQuery("SELECT RESULTADOS.ID AS ID_RESULTADO, * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER " +
-                            "AND ID_CATEGORY=? ORDER BY SCORE DESC",new String[] {String.valueOf(category.getId())});
-                    //si la base de datos tiene algún registro
-                    if (cursor2 != null && cursor2.getCount() > 0) {
-                        //mientras la base de datos tenga registros
-                        if (cursor2.moveToFirst()) { //si hay registros
-                            do {
-                                resultado=new Resultado();
-                                // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                                resultado.setID(cursor2.getInt(cursor2.getColumnIndex("ID_RESULTADO")));
-                                resultado.setUserID(cursor2.getInt(cursor2.getColumnIndex("ID_USER")));
-                                resultado.setCategoryID(cursor2.getInt(cursor2.getColumnIndex("ID_CATEGORY")));
-                                resultado.setUsername(cursor2.getString(cursor2.getColumnIndex("NAME")));
-                                resultado.setAciertos(cursor2.getInt(cursor2.getColumnIndex("ACIERTOS")));
-                                resultado.setFallos(cursor2.getInt(cursor2.getColumnIndex("FALLOS")));
-                                resultado.setEnBlanco(cursor2.getInt(cursor2.getColumnIndex("ENBLANCO")));
-                                resultado.setScore(cursor2.getInt(cursor2.getColumnIndex("SCORE")));
+                //Opción 1: Realiza una consulta con los parámetros seleccionados
+                Cursor cursor= database.rawQuery("SELECT RESULTADOS.ID AS ID_RESULTADO, * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER " +
+                        "AND ID_CATEGORY=? ORDER BY SCORE DESC",new String[] {String.valueOf(category.getId())});
+                //si la base de datos tiene algún registro
+                if (cursor != null && cursor.getCount() > 0) {
+                    //mientras la base de datos tenga registros
+                    if (cursor.moveToFirst()) { //si hay registros
+                        do {
+                            resultado=new Resultado();
+                            // ¡¡OJO!! Distingue mayúsculas y minúsculas
+                            resultado.setID(cursor.getInt(cursor.getColumnIndex("ID_RESULTADO")));
+                            resultado.setUserID(cursor.getInt(cursor.getColumnIndex("ID_USER")));
+                            resultado.setCategoryID(cursor.getInt(cursor.getColumnIndex("ID_CATEGORY")));
+                            resultado.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
+                            resultado.setAciertos(cursor.getInt(cursor.getColumnIndex("ACIERTOS")));
+                            resultado.setFallos(cursor.getInt(cursor.getColumnIndex("FALLOS")));
+                            resultado.setEnBlanco(cursor.getInt(cursor.getColumnIndex("ENBLANCO")));
+                            resultado.setScore(cursor.getInt(cursor.getColumnIndex("SCORE")));
 
-                                resultadoArrayList.add(resultado);
-                            } while (cursor2.moveToNext()); //mientras haya registros
-                        }
-                        //cerramos el cursor
-                        cursor2.close();
+                            resultadoArrayList.add(resultado);
+                        } while (cursor.moveToNext()); //mientras haya registros
                     }
+                    //cerramos el cursor
+                    cursor.close();
+
                 }
 
+                //Cerramos la base de datos
+                database.close();
 
             }
-            //Cerramos la base de datos
-            database.close();
+
         }
+
 
 
         return resultadoArrayList;

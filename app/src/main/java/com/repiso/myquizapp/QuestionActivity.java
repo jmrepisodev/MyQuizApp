@@ -159,8 +159,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             //si no hay preguntas en la base de datos lanza mensaje de error
             if(totalquestion==0){
-                Toast.makeText(this, "La base de datos de preguntas está vacía.", Toast.LENGTH_LONG).show();
-                finish();
+                mostrarAlerta("ATENCIÓN","No existen preguntas disponibles en esta categoría");
 
             }else{
                 //permutamos aleatoriamente la lista de preguntas
@@ -514,7 +513,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     /**
      * Muestra una alerta de GameOver
      */
-    private void mostrarAlerta() {
+    private void mostrarAlertaGameOver() {
         //ImageView image = new ImageView(this);
         //image.setImageResource(R.drawable.game_over);
         //LayoutInflater factory = LayoutInflater.from(this);
@@ -669,6 +668,27 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 dialog.dismiss();
             }
         });
+        builder.show();
+    }
+
+    /**
+     * Muestra un mensaje modal de alerta con opciones para el usuario
+     */
+    public void mostrarAlerta(String titulo, String mensaje){
+
+        android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(this);
+        builder.setTitle(titulo);
+        builder.setIcon(R.drawable.nav_info);
+        builder.setMessage(mensaje);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
         builder.show();
     }
 
