@@ -24,12 +24,6 @@ public class RankingFragment extends Fragment {
     private ArrayList<Resultado> resultadoArrayList;
     private DBHelper dbHelper;
 
-    private Spinner sp_category;
-    private ImageButton btn_search;
-    private String categoria;
-    private ArrayList<Category> categoryArrayList;
-    private String[] categoriasList;
-
 
     public RankingFragment() {
         // Required empty public constructor
@@ -43,67 +37,21 @@ public class RankingFragment extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_ranking, container, false);
 
-        sp_category=(Spinner)view.findViewById(R.id.spinnerCategoryRanking);
         recyclerViewRanking=(RecyclerView)view.findViewById(R.id.recycler_Ranking);
-        btn_search=view.findViewById(R.id.imageButtonSearch);
 
         //Inicializa las bases de datos SQLite
         dbHelper=DBHelper.getInstance(getContext());
 
-        //Obtenemos la lista de categorías de la base de datos
-        categoryArrayList=dbHelper.getCategoryList();
-        //Llenamos la lista de categorías desde un Array de recursos
-        // categoriasList =this.getResources().getStringArray(R.array.categorias_ranking);
-
-
-        if(categoryArrayList!=null && categoryArrayList.size()>0){
-
-            categoriasList = new String[categoryArrayList.size()];
-
-            for (int i = 0; i <categoryArrayList.size(); i++) {
-                categoriasList[i] = categoryArrayList.get(i).getName();
-            }
-
-
-            //Creamos un adapter para el spinner (contexto, layout, array)
-            ArrayAdapter<String> adapterCategorias = new ArrayAdapter<String>(getContext(),
-                    android.R.layout.simple_spinner_item, categoriasList);
-            adapterCategorias.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            //le pasamos el adapter al spinner
-            sp_category.setAdapter(adapterCategorias);
-
-        }
-
-
         //Inicia la lista de usuarios
         resultadoArrayList =new ArrayList();
 
-        //Obtiene la lista de datos de la base de datos
-        resultadoArrayList =dbHelper.getResultadosList();
+        //Obtiene el ranking de usuarios de la base de datos
+        resultadoArrayList =dbHelper.getRankingList();
 
         iniciarRecyclerview();
 
 
-        btn_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Eliminamos la lista previa
-                if(resultadoArrayList.size()!=0){
-                    resultadoArrayList.clear();
-                    if(recyclerViewAdapterRanking!=null){
-                        recyclerViewAdapterRanking.notifyDataSetChanged();
-                    }
-                }
 
-                //Obtenemos la categoria
-                categoria= sp_category.getSelectedItem().toString().trim();
-                //cargamos la lista por categoría
-                resultadoArrayList =dbHelper.getResultadoListByCategory(categoria);
-
-                iniciarRecyclerview();
-
-            }
-        });
 
         // Inflate the layout for this fragment
         return view;
@@ -115,6 +63,7 @@ public class RankingFragment extends Fragment {
         if(resultadoArrayList.size()==0){
             Toast.makeText(getContext(), "La lista está vacía", Toast.LENGTH_LONG).show();
         }else{
+
             // Esta línea mejora el rendimiento, si sabemos que el contenid no va a afectar al tamaño del RecyclerView
             recyclerViewRanking.setHasFixedSize(true);
             // Establece el layoutManager del recyclerview

@@ -74,7 +74,8 @@ public class RegistroActivity extends AppCompatActivity {
                         //Comprueba si no existe el email
                         if(dbHelper.checkUserEmail(email)==false){
                             Usuario usuario=new Usuario(name, email, pass, rol);
-                            if(dbHelper.addUser(usuario)){
+
+                            if(dbHelper.addUser(usuario)!=-1){
                                 //Muestra mensaje de confirmación de registro
                                 showDialogSuccess();
 

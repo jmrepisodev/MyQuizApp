@@ -44,7 +44,7 @@ public class Utilidades {
         Category category3=new Category(3,"HISTORIA", R.drawable.quizz);
         categoryList.add(category3);
 
-        Category category4=new Category(4,"ARTE Y LITERATURA",R.drawable.quizz);
+        Category category4=new Category(4,"LITERATURA",R.drawable.quizz);
         categoryList.add(category4);
 
         Category category5=new Category(5,"ESPECTACULOS", R.drawable.quizz);

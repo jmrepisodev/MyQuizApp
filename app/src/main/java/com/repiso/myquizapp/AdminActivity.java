@@ -33,6 +33,7 @@ public class AdminActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private SessionManager sessionManager;
     private String username, email, rol;
+    private TextView tv_name, tv_email;
     private Boolean isLogin;
     private int userID;
 
@@ -69,6 +70,13 @@ public class AdminActivity extends AppCompatActivity {
         AdminHomeFragment adminHomeFragment=new AdminHomeFragment();
         QuestionFragment questionFragment=new QuestionFragment();
         CategoryFragment categoryFragment=new CategoryFragment();
+
+        View headerView = navigationView.getHeaderView(0);
+        tv_name = (TextView) headerView.findViewById(R.id.header_name_user);
+        tv_email = (TextView) headerView.findViewById(R.id.header_email_user);
+
+        tv_name.setText(username);
+        tv_email.setText(email);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -38,6 +38,12 @@ public class Resultado {
         this.username = username;
     }
 
+    public Resultado(int userID, int score, String username) {
+        this.userID = userID;
+        this.score = score;
+        this.username = username;
+    }
+
     public int getID() {
         return ID;
     }

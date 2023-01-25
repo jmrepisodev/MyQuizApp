@@ -43,6 +43,7 @@ public class CategoryFragment extends Fragment {
         imageView=(ImageView) view.findViewById(R.id.imageViewCategory);
         btn_camera=(Button) view.findViewById(R.id.btn_img);
         btn_save=(Button) view.findViewById(R.id.btn_save_category);
+        et_category=(EditText)view.findViewById(R.id.editTextCategory);
 
        // dbHelper=new DBHelper(getContext());
         dbHelper=DBHelper.getInstance(getContext());

@@ -207,7 +207,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param usuario usuario
      * @return Devuelve estado de la operación
      */
-    protected Boolean addUser(Usuario usuario) {
+    protected long addUser(Usuario usuario) {
         //Abrimos la base de datos en modo escritura
         database=getWritableDatabase();
 
@@ -229,9 +229,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if(database !=null){
             database.close();}
 
-        if(result!=-1) return true;
-        else
-            return false;
+       return result;
 
     }
 
@@ -816,7 +814,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     /**
-     * Obtiene el ranking de usuarios según la categoría seleccionada
+     * Obtiene una lista completa de resultados según la categoría seleccionada
      * @return
      */
     @SuppressLint("Range")
@@ -847,7 +845,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 if(category!=null){
 
                     //Opción 1: Realiza una consulta con los parámetros seleccionados
-                    Cursor cursor2= database.rawQuery("SELECT * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER " +
+                    Cursor cursor2= database.rawQuery("SELECT RESULTADOS.ID AS ID_RESULTADO, * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER " +
                             "AND ID_CATEGORY=? ORDER BY SCORE DESC",new String[] {String.valueOf(category.getId())});
                     //si la base de datos tiene algún registro
                     if (cursor2 != null && cursor2.getCount() > 0) {
@@ -856,7 +854,7 @@ public class DBHelper extends SQLiteOpenHelper {
                             do {
                                 resultado=new Resultado();
                                 // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                                resultado.setID(cursor2.getInt(cursor2.getColumnIndex("ID")));
+                                resultado.setID(cursor2.getInt(cursor2.getColumnIndex("ID_RESULTADO")));
                                 resultado.setUserID(cursor2.getInt(cursor2.getColumnIndex("ID_USER")));
                                 resultado.setCategoryID(cursor2.getInt(cursor2.getColumnIndex("ID_CATEGORY")));
                                 resultado.setUsername(cursor2.getString(cursor2.getColumnIndex("NAME")));
@@ -887,7 +885,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     /**
-     * Obtiene el ranking de usuarios según la categoría seleccionada
+     * Obtiene la lista completa de resultados
      * @return
      */
     @SuppressLint("Range")
@@ -902,7 +900,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Cursor cursor;
 
             //Opción 1: Realiza una consulta con los parámetros seleccionados
-            cursor= database.rawQuery("SELECT * FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER ORDER BY SCORE DESC",null);
+            cursor= database.rawQuery("SELECT RESULTADOS.ID AS ID_RESULTADO,* FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER ORDER BY SCORE DESC",null);
 
             //Opción 2: consulta con parámetros
             // cursor = db.query("tabla", null, args, params, null, null, null);
@@ -914,7 +912,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     do {
                         Resultado resultado =new Resultado();
                         // ¡¡OJO!! Distingue mayúsculas y minúsculas
-                        resultado.setID(cursor.getInt(cursor.getColumnIndex("ID")));
+                        resultado.setID(cursor.getInt(cursor.getColumnIndex("ID_RESULTADO")));
                         resultado.setUserID(cursor.getInt(cursor.getColumnIndex("ID_USER")));
                         resultado.setCategoryID(cursor.getInt(cursor.getColumnIndex("ID_CATEGORY")));
                         resultado.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
@@ -935,6 +933,59 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return resultadoArrayList;
     }
+
+
+    /**
+     * Obtiene el ranking de usuarios, ordenados por puntuación total
+     * @return
+     */
+    @SuppressLint("Range")
+    public ArrayList<Resultado> getRankingList() {
+        ArrayList<Resultado> resultadoArrayList = new ArrayList<>();
+        //abre la base de datos, en modo lectura
+        database = getReadableDatabase();
+
+        //Si la base de datos está abierta.
+        if(database.isOpen()) {
+
+            Cursor cursor;
+
+            //Opción 1: Realiza una consulta con los parámetros seleccionados
+            cursor= database.rawQuery("SELECT SUM(SCORE) AS TOTAL, USERS.ID, USERS.NAME FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER GROUP BY USERS.ID ORDER BY SCORE DESC",null);
+
+            //Opción 2: consulta con parámetros
+            // cursor = db.query("tabla", null, args, params, null, null, null);
+
+            //si la base de datos tiene algún registro
+            if (cursor != null && cursor.getCount() > 0) {
+                //mientras la base de datos tenga registros
+                if (cursor.moveToFirst()) { //si hay registros
+                    do {
+                        Resultado resultado =new Resultado();
+                        // ¡¡OJO!! Distingue mayúsculas y minúsculas
+                       // resultado.setID(cursor.getInt(cursor.getColumnIndex("ID_RESULTADO")));
+                        resultado.setUserID(cursor.getInt(cursor.getColumnIndex("ID")));
+                       // resultado.setCategoryID(cursor.getInt(cursor.getColumnIndex("ID_CATEGORY")));
+                        resultado.setUsername(cursor.getString(cursor.getColumnIndex("NAME")));
+                       // resultado.setAciertos(cursor.getInt(cursor.getColumnIndex("ACIERTOS")));
+                       // resultado.setFallos(cursor.getInt(cursor.getColumnIndex("FALLOS")));
+                       // resultado.setEnBlanco(cursor.getInt(cursor.getColumnIndex("ENBLANCO")));
+                        resultado.setScore(cursor.getInt(cursor.getColumnIndex("TOTAL")));
+
+                        resultadoArrayList.add(resultado);
+                    } while (cursor.moveToNext()); //mientras haya registros
+                }
+                //cerramos el cursor
+                cursor.close();
+            }
+            //cerramos la base de datos
+            database.close();
+        }
+
+        return resultadoArrayList;
+    }
+
+
 
 
 

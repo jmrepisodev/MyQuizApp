@@ -27,47 +27,6 @@
             android:src="@drawable/podio" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/categoria"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinnerCategoryRanking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/btn_search"
-                android:minHeight="42dp"
-                android:textSize="14sp"
-                android:minWidth="200dp"
-                android:textColor="@android:color/black">
-
-            </Spinner>
-
-            <ImageButton
-                android:id="@+id/imageButtonSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_gravity="center"
-                android:contentDescription="image button"
-                android:layout_marginLeft="8dp"
-                android:src="@drawable/icon_search" />
-
-
-        </LinearLayout>
-
-
         <TextView
             android:id="@+id/separadorId"
             android:layout_width="match_parent"

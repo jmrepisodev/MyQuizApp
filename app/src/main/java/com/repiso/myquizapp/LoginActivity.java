@@ -71,8 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                             sessionManager.setUserRol(usuario.getRol());
 
                             //Limpiamos los campos de texto
-                            et_email.getText().clear();
-                            et_password.getText().clear();
+                           // et_email.getText().clear();
+                           // et_password.getText().clear();
 
                             if(usuario.getRol().equalsIgnoreCase("admin")){
                                 //Iniciamos la actividad principal
