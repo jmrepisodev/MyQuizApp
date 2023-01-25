@@ -951,7 +951,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Cursor cursor;
 
             //Opción 1: Realiza una consulta con los parámetros seleccionados
-            cursor= database.rawQuery("SELECT SUM(SCORE) AS TOTAL, USERS.ID, USERS.NAME FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER GROUP BY USERS.ID ORDER BY SCORE DESC",null);
+            cursor= database.rawQuery("SELECT SUM(SCORE) AS TOTAL, USERS.ID, USERS.NAME FROM USERS, RESULTADOS WHERE USERS.ID=RESULTADOS.ID_USER GROUP BY USERS.ID ORDER BY TOTAL DESC",null);
 
             //Opción 2: consulta con parámetros
             // cursor = db.query("tabla", null, args, params, null, null, null);

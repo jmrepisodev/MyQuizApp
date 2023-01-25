@@ -4,10 +4,10 @@ USE bbdd_quizz;
 
 DROP TABLE IF EXISTS detalle_resultados;
 DROP TABLE IF EXISTS resultados;
-DROP TABLE IF EXISTS respuestas;
-DROP TABLE IF EXISTS preguntas;
-DROP TABLE IF EXISTS categorias;
-DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS levels;
+DROP TABLE IF EXISTS users;
 
 
 -- Implementación en SQL del modelo de base de datos
@@ -23,14 +23,14 @@ CREATE TABLE users (
 
 CREATE TABLE categories (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    categoryname VARCHAR(100),
-    descripcion VARCHAR(255)
+    name VARCHAR(100),
+    image VARCHAR(255)
 
 );
 
 CREATE TABLE levels (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    levelname VARCHAR(100)
+    level VARCHAR(100)
 
 );
 
@@ -41,11 +41,11 @@ CREATE TABLE questions (
     option2 TEXT,
     option3 TEXT,
     option4 TEXT,
-    answer INT,
+    correcta INT,
     id_category INT,
     id_level INT,
-    CONSTRAINT id_category_fk FOREIGN KEY (id_category) REFERENCES categorias (id) ON DELETE CASCADE,
-    CONSTRAINT id_level_fk FOREIGN KEY (id_level) REFERENCES niveles (id) ON DELETE CASCADE
+    CONSTRAINT id_category_fk FOREIGN KEY (id_category) REFERENCES categories (id) ON DELETE CASCADE,
+    CONSTRAINT id_level_fk FOREIGN KEY (id_level) REFERENCES levels (id) ON DELETE CASCADE
 );
 
 
@@ -60,3 +60,13 @@ CREATE TABLE resultados (
     CONSTRAINT id_level2_fk FOREIGN KEY (id_level) REFERENCES niveles (id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE detalle_resultados (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_resultado INT,
+        id_pregunta INT,
+	respuesta INT,
+        es_correcta BOOLEAN,
+	CONSTRAINT id_res_fk FOREIGN KEY (id_resultado) REFERENCES resultados (id) ON DELETE CASCADE,
+        CONSTRAINT id_preg2_fk FOREIGN KEY (id_pregunta) REFERENCES questions (id) ON DELETE CASCADE
+);
