@@ -102,7 +102,8 @@ public class QuestionFragment extends Fragment  {
                 option3=et_option_3.getText().toString().trim();
                 option4=et_option_4.getText().toString().trim();
 
-                answer=sp_answer.getSelectedItem().toString().trim();
+                //answer=sp_answer.getSelectedItem().toString().trim();
+                answer=String.valueOf(sp_answer.getSelectedItemPosition()+1);
                 level=sp_level.getSelectedItem().toString().trim();
                 //Recuperamos la posición +1 (ID categoría)
                 int categoryID=sp_category.getSelectedItemPosition()+1;

@@ -27,10 +27,10 @@
     </string-array>
 
     <string-array name="respuestas">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>OPCION 1</item>
+        <item>OPCION 2</item>
+        <item>OPCION 3</item>
+        <item>OPCION 4</item>
     </string-array>
 
 

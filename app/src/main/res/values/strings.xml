@@ -106,5 +106,6 @@
     <string name="admin_panel">Panel Administración</string>
     <string name="enblanco">En blanco</string>
     <string name="btn_spin">Girar</string>
+    <string name="title_resultados">Resultados de usuarios</string>
 
 </resources>

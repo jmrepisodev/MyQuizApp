@@ -70,13 +70,20 @@ public class MainActivity extends AppCompatActivity {
         email=sessionManager.getUserEmail();
         isLogin=sessionManager.getLogin();
 
+        //Si no se ha iniciado sesión redirige a la pantalla de Login
+        if(isLogin==false || sessionManager==null){
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
         //Recupera las preferencias de configuración
         Preferencias.getPreferences(this);
         sound=Preferencias.sound;
         language=Preferencias.language;
         //Establece el idioma de la aplicación
         setLocale(language);
-
 
         //ActionBar
         Toolbar toolbar=findViewById(R.id.toolbar);

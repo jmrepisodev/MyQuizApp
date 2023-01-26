@@ -49,6 +49,13 @@ public class AdminActivity extends AppCompatActivity {
         email=sessionManager.getUserEmail();
         isLogin=sessionManager.getLogin();
 
+        //Si no se ha iniciado sesión redirige a la pantalla de Login
+        if(isLogin==false || sessionManager==null){
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         //ActionBar
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
